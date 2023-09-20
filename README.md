@@ -58,7 +58,7 @@ CONNECTION_STRING="jdbc:postgresql://localhost:26257/test?user=root" \
 
 **/go_example**
 
-The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional build dependencies are required.
+The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
 
 Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
 
@@ -67,4 +67,17 @@ cd resources/code_examples/go_example
 
 CONNECTION_STRING="postgres://root@localhost:26257/test?sslmode=disable" \
   go run main.go
+```
+
+**/dotnet_example**
+
+The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
+
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
+
+``` sh
+cd resources/code_examples/dotnet_example
+
+CONNECTION_STRING="Server=localhost;Port=26257;Database=test;Userid=root;SslMode=Disable;" \
+  dotnet run
 ```
