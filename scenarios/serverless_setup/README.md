@@ -13,7 +13,27 @@ https://cockroachlabs.cloud/
 
 Login to the console, in the centre of the screen click `Create Cluster`
 
-![create-cluster](/images/create-cluster.png)
+![create-cluster](/images/serverless-setup/create-cluster.png)
+
+
+
+![select-your-cloud](/images/select-your-cloud.png)
+
+![select-your-regions](/images/select-your-regions.png)
+
+leave-on-free
+
+![name-your-cluster](/images/name-your-cluster.png)
+
+![hit-create](/images/hit-create.png)
+
+![creating-cluster](/images/creating-cluster.png)
+
+![create-sql-user](/images/create-sql-user.png)
+
+
+
+
 
 
 Connecting via Code
