@@ -53,7 +53,7 @@ So far so good! You'll seeing single-digit latency, so the query seems to be per
 
 #### Part 2
 
-Now we'll insert a bunch of data, so highlight an issue with our table.
+Now we'll insert a bunch of data, to highlight an issue with our table.
 
 Generate a CSV containing 500,000 member rows using the following command:
 
