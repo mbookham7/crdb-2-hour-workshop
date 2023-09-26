@@ -7,7 +7,7 @@ To kick thinks off lets create our serverless cluster
 ## Setup Your Serverless Cluster
 
 In your browser access the following URL
-```
+```bash
 https://cockroachlabs.cloud/
 ```
 
@@ -33,16 +33,11 @@ Your first cluster can be free if you stay with in the limits which we will with
 
 `yourname-serverless-lab`
 
-Enter in the box bleow.
+Enter in the box below.
 
 ![name-your-cluster](/images/serverless-setup/name-your-cluster.png)
 
-Once you have made your selection review them and hit create!! WE ARE GOING GLOBAL!!
-
-![hit-create](/images/serverless-setup/hit-create.png)
-
-
-![creating-cluster](/images/serverless-setup/creating-cluster.png)
+Once you have made your selection review them and hit create!! WE ARE GOING GLOBAL!! Once your cluster is created then you will need to create an SQL User. The user name will be based on the account you logged in with but the password will be randomly generated, you need to copy this to you notepad and keep this safe for further steps in the lab.
 
 ![create-sql-user](/images/serverless-setup/create-sql-user.png)
 
