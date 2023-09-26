@@ -1,0 +1,21 @@
+tables:
+
+  - name: member
+    count: 500000
+    columns:
+    
+      - name: id
+        type: gen
+        processor:
+          value: ${uuid}
+      
+      - name: full_name
+        type: gen
+        processor:
+          value: ${name}
+      
+      - name: contact
+        type: gen
+        processor:
+          value: |
+            { "email": "${email}", "street": "${street_number} ${street_prefix} ${street_name}", "city": "${city}", "zip": "${zip}" }

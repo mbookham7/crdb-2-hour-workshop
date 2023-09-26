@@ -3,3 +3,6 @@ target/
 dependency-reduced-pom.xml
 bin/
 obj/
+
+# dg artifacts
+scenarios/query_performance/csvs/
