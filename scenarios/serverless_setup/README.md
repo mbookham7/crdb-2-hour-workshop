@@ -41,11 +41,41 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ![create-sql-user](/images/serverless-setup/create-sql-user.png)
 
-Connecting via Code
+## Connecting to your Cluster via Code
 
-Connecting via CLI
+@Rob Reid
 
-Now we are going to 
+## Connecting to your Cluster via CLI
+
+To connect to your cluster you will first need the `CockraochDB Client`. You can do this from the console by clicking connect in the top right hand corner.
+
+Below are the commands for Mac and Windows. Copy the correct one for your Operating System and run.
+
+MacOS
+```shell
+curl https://binaries.cockroachdb.com/cockroach-v23.1.10.darwin-10.9-amd64.tgz | tar -xz; sudo cp -i cockroach-v23.1.10.darwin-10.9-amd64/cockroach /usr/local/bin/
+```
+
+Windows Powershell
+```powershell
+$ErrorActionPreference = "Stop"; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $ProgressPreference = 'SilentlyContinue'; $null = New-Item -Type Directory -Force $env:appdata/cockroach; Invoke-WebRequest -Uri https://binaries.cockroachdb.com/cockroach-v23.1.10.windows-6.2-amd64.zip -OutFile cockroach.zip; Expand-Archive -Force -Path cockroach.zip; Copy-Item -Force cockroach/cockroach-v23.1.10.windows-6.2-amd64/cockroach.exe -Destination $env:appdata/cockroach; $Env:PATH += ";$env:appdata/cockroach"; # We recommend adding ";$env:appdata/cockroach" to the Path variable for your system environment. See https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables#saving-changes-to-environment-variables for more information.
+```
+
+Once you have downloaded the CockroachDB Client you are now ready to connect to your cluster. From the same window, from the connect button in the top right hand corner you can copy your connection command.
+
+Example command below
+```shell
+cockroach sql --url "postgresql://<username>@<cluster-name>.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
+```
+
+Now we are connected to the cluster we are going to run some basic SQL commands to get familiar with COckroachDB.
+
+``
+
+@Rob Reid
 
 
-Running Some Basic Commands
+
+
+
+
