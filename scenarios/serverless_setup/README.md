@@ -41,13 +41,11 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ![create-sql-user](/images/serverless-setup/create-sql-user.png)
 
-
-
-
-
-
 Connecting via Code
 
 Connecting via CLI
+
+Now we are going to 
+
 
 Running Some Basic Commands
