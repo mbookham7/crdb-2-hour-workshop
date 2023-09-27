@@ -91,11 +91,13 @@ Note that if you'd like to have more space in your terminal, you can enter the f
 \set prompt1 %/>
 ```
 
+Show the region your client is currently connected to.
 ```sql
 SELECT gateway_region();
 ```
 
-Show the regions in your cluster:
+Now show the regions in your cluster, what can you see?
+Which is the primary region?
 
 ```sql
 SHOW regions;
@@ -104,28 +106,74 @@ SHOW regions;
 Create a database (this can then be used instead of "defaultdb" in your connection string for subsequent connections):
 
 ```sql
-CREATE DATABASE cap_workshop
+CREATE DATABASE workshop
   PRIMARY REGION "aws-eu-central-1"
   REGIONS "aws-us-east-1", "aws-us-west-2";
-
-USE cap_workshop;
 ```
 
-Perform some basic CRUD operations:
+Now select the new database.
+```sql 
+USE workshop;
+```
+
+Perform some basic CRUD operations. Create a table with a colum for ID and a value:
 
 ```sql
 CREATE TABLE example (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "value" STRING NOT NULL
 );
+```
 
+We are now going to insert three rows in to our new table.
+```sql
 INSERT INTO example ("value") VALUES
   ('a'), ('b'), ('c');
+```
 
+Now if we do a `SELECT` on our table we can see that CockroachDB has automatically generated UUIDs for each row.
+
+```sql
+SELECT * FROM example;
+```
+
+Example Output:
+```workshop> SELECT * FROM example;                                                                                                                                                                                        
+                   id                  | value
+---------------------------------------+--------
+  323a533b-41ae-464a-a66f-f3a4a05f5eda | d
+  c53949c5-5acf-4a56-a2d5-ee0d5b13870e | b
+  cf6185de-b08c-48c6-a979-8f57e1026a2b | c
+  e42a82bf-10ec-4870-87b5-7e8bf677f4b3 | a
+(4 rows)
+```
+
+Now we are going to `INSERT` another row into out table. We are doing this so that find it earlier later to delete it!
+
+```sql
 INSERT INTO example ("id", "value") VALUES
   ('323a533b-41ae-464a-a66f-f3a4a05f5eda', 'd');
+```
 
+Do another `SELECT` for the example table.
+```sql
 SELECT * FROM example;
+```
+
+Now do another `SELECT` from the example table where the id matches the id we added in the earlier step.
+```sql
 SELECT * FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
+```
+
+Now we are going to delete the row.
+```sql
 DELETE FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
 ```
+
+Do a final `SELECT` for the example table. You will see our row is deleted!!
+```sql
+SELECT * FROM example;
+```
+
+As you can see CockroachDB behaves like typical relational database, now lets look at query performance.
+
