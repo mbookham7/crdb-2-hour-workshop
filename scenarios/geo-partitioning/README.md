@@ -1,17 +1,30 @@
-Open a CockroachDB shell to your Serverless cluster:
+Create a local CockroachDB cluster containing 9 nodes across 3 regions (note this is a simulated cluster, with simulated inter-region latencies):
 
 ``` sh
-cockroach sql --url "postgresql://USER@CLUSTER_NAME.aws-eu-central-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
+cockroach demo \
+  --nodes 9 \
+  --global \
+  --no-example-database
 ```
+
+Visit http://127.0.0.1:8080/#/overview/map to see a map view of your cluster.
 
 Create a regional-aware database:
 
 ``` sql
 CREATE DATABASE cap_workshop
-  PRIMARY REGION "aws-eu-central-1"
-  REGIONS "aws-us-east-1", "aws-us-west-2";
+  PRIMARY REGION "europe-west1"
+  REGIONS "us-east1", "us-west1";
 
 USE cap_workshop;
+```
+
+Add super regions:
+
+``` sql
+SET enable_super_regions = 'on';
+ALTER DATABASE "cap_workshop" ADD SUPER REGION us VALUES "us-east1", "us-west1";
+ALTER DATABASE "cap_workshop" ADD SUPER REGION eu VALUES "europe-west1";
 ```
 
 Create some tables:
@@ -23,9 +36,9 @@ CREATE TABLE "product" (
   "market" STRING NOT NULL,
   "crdb_region" CRDB_INTERNAL_REGION AS (
     CASE
-      WHEN "market" IN ('uk', 'ie', 'de', 'fr') THEN 'aws-eu-central-1'
-      WHEN "market" IN ('us', 'mx') THEN 'aws-us-east-1'
-      ELSE 'aws-eu-central-1'
+      WHEN "market" IN ('uk', 'ie', 'de', 'fr') THEN 'europe-west1'
+      WHEN "market" IN ('us', 'mx') THEN 'us-east1'
+      ELSE 'europe-west1'
     END
   ) STORED,
   "amount" DECIMAL NOT NULL,
@@ -34,6 +47,12 @@ CREATE TABLE "product" (
   PRIMARY KEY ("crdb_region", "name", "market"),
   INDEX ("market")
 ) LOCALITY REGIONAL BY ROW;
+
+-- Reduce the replica count in the product table to 3, to prevent data from being replicated outside of the EU. This is only required because we're running a single EU region within our super region.
+SET override_multi_region_zone_config = true;
+
+ALTER TABLE "product" CONFIGURE ZONE USING
+  num_replicas = 3;
 
 -- A global table to store translations for products. This data will be stored across all regions, resulting in quick reads for everyone, everywhere.
 CREATE TABLE "i18n" (
@@ -84,9 +103,13 @@ INSERT INTO i18n ("word", "lang", "translation") VALUES
   ('Cappuccino', 'ja', 'ラテ');
 ```
 
-Query for products to show cross-region latencies:
+Query for products to show cross-region latencies (by default, you'll connect to the us-east1 region):
 
 ``` sql
+SELECT p.name FROM product p WHERE market = 'us';
+SELECT p.name FROM product p WHERE market = 'uk';
+SELECT i.word, i.lang, i.translation FROM i18n i;
+
 SELECT i.translation, p.market, p.amount, p.currency
 FROM product p
 JOIN i18n i ON p.name = i.word
@@ -100,19 +123,6 @@ WHERE p.market = 'us'
 AND i.lang = 'ja';
 ```
 
-Add super regions:
-
-``` sql
-SET enable_super_regions = 'on';
-ALTER DATABASE "cap_workshop" ADD SUPER REGION us VALUES "aws-us-east-1", "aws-us-west-2";
-ALTER DATABASE "cap_workshop" ADD SUPER REGION eu VALUES "aws-eu-central-1";
-
-SET override_multi_region_zone_config = true;
-ALTER DATABASE "cap_workshop" CONFIGURE ZONE USING
-  num_replicas = 3,
-  constraints = '[]';
-```
-
 Debug statements:
 
 ``` sql
@@ -121,7 +131,8 @@ SELECT DISTINCT
   split_part(split_part(unnest(replica_localities), ',', 1), '=', 2) region,
   split_part(split_part(unnest(replica_localities), ',', 2), '=', 2) az,
   unnest(replicas) replica
-FROM [SHOW RANGES FROM TABLE product];
+FROM [SHOW RANGES FROM TABLE "product"]
+ORDER BY 1, 2;
 
 -- Show ranges by region.
 WITH
@@ -129,13 +140,13 @@ WITH
     SELECT DISTINCT
       split_part(unnest(replica_localities), ',', 1) region,
       replicas
-    FROM [SHOW RANGES FROM TABLE product]
+    FROM [SHOW RANGES FROM TABLE "product"]
   ),
   ranges AS (
     SELECT
       replicas,
       range_id
-    FROM [SHOW RANGES FROM TABLE product]
+    FROM [SHOW RANGES FROM TABLE "product"]
   )
 SELECT
   split_part(re.region, '=', 2) region,
