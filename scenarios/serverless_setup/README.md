@@ -7,6 +7,7 @@ To kick thinks off lets create our serverless cluster
 ## Setup Your Serverless Cluster
 
 In your browser access the following URL
+
 ```bash
 https://cockroachlabs.cloud/
 ```
@@ -29,7 +30,7 @@ Next, we are going to select the regions. As we are going to deploy a multi-regi
 
 ![select-your-regions](/images/serverless-setup/select-your-regions.png)
 
-Your first cluster can be free if you stay with in the limits which we will within this lab. You must enter a unique name for your cluster now user you name to make it unique. 
+Your first cluster can be free if you stay with in the limits which we will within this lab. You must enter a unique name for your cluster now user you name to make it unique.
 
 `yourname-serverless-lab`
 
@@ -52,11 +53,13 @@ To connect to your cluster you will first need the `CockraochDB Client`. You can
 Below are the commands for Mac and Windows. Copy the correct one for your Operating System and run.
 
 MacOS
+
 ```shell
 curl https://binaries.cockroachdb.com/cockroach-v23.1.10.darwin-10.9-amd64.tgz | tar -xz; sudo cp -i cockroach-v23.1.10.darwin-10.9-amd64/cockroach /usr/local/bin/
 ```
 
 Windows Powershell
+
 ```powershell
 $ErrorActionPreference = "Stop"; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $ProgressPreference = 'SilentlyContinue'; $null = New-Item -Type Directory -Force $env:appdata/cockroach; Invoke-WebRequest -Uri https://binaries.cockroachdb.com/cockroach-v23.1.10.windows-6.2-amd64.zip -OutFile cockroach.zip; Expand-Archive -Force -Path cockroach.zip; Copy-Item -Force cockroach/cockroach-v23.1.10.windows-6.2-amd64/cockroach.exe -Destination $env:appdata/cockroach; $Env:PATH += ";$env:appdata/cockroach"; # We recommend adding ";$env:appdata/cockroach" to the Path variable for your system environment. See https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables#saving-changes-to-environment-variables for more information.
 ```
@@ -64,18 +67,65 @@ $ErrorActionPreference = "Stop"; [Net.ServicePointManager]::SecurityProtocol = [
 Once you have downloaded the CockroachDB Client you are now ready to connect to your cluster. From the same window, from the connect button in the top right hand corner you can copy your connection command.
 
 Example command below
+
 ```shell
 cockroach sql --url "postgresql://<username>@<cluster-name>.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
 ```
 
-Now we are connected to the cluster we are going to run some basic SQL commands to get familiar with COckroachDB.
+> Note that this connection string will use the CockroachDB global load balancer, ensuring you are connected to your closest region. If you wish to override this and provide a region manually, the connection string can be updated as follows:
 
-``
+```shell
+cockroach sql --url "postgresql://<username>@<cluster-name>.<region>.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
+```
 
-@Rob Reid
-
-
-
-
+Now we are connected to the cluster we are going to run some basic SQL commands to get familiar with CockroachDB.
 
 
+## Querying your cluster
+
+See which region you are currently connected to (note that CockroachDB might direct you to a region that's close to you but not specified in your region list):
+
+Note that if you'd like to have more space in your terminal, you can enter the following command from the CockroachDB shell to shorten your prompt:
+
+```sh
+\set prompt1 %/>
+```
+
+```sql
+SELECT gateway_region();
+```
+
+Show the regions in your cluster:
+
+```sql
+SHOW regions;
+```
+
+Create a database (this can then be used instead of "defaultdb" in your connection string for subsequent connections):
+
+```sql
+CREATE DATABASE cap_workshop
+  PRIMARY REGION "aws-eu-central-1"
+  REGIONS "aws-us-east-1", "aws-us-west-2";
+
+USE cap_workshop;
+```
+
+Perform some basic CRUD operations:
+
+```sql
+CREATE TABLE example (
+  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  "value" STRING NOT NULL
+);
+
+INSERT INTO example ("value") VALUES
+  ('a'), ('b'), ('c');
+
+INSERT INTO example ("id", "value") VALUES
+  ('323a533b-41ae-464a-a66f-f3a4a05f5eda', 'd');
+
+SELECT * FROM example;
+SELECT * FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
+DELETE FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
+```
