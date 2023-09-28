@@ -44,11 +44,13 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ## Connecting to your Cluster via Code
 
-The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice.
+The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice. Pick any of the following languages to build your example, you don't have to do them all!
 
 **/java_example**
 
-The Java example is a very simple application that connects to a CockroachDB database. It makes use of [maven](https://maven.apache.org), so install that unless you'd prefer another tool.
+If you don't have Java installed, visit the [downloads](https://www.oracle.com/uk/java/technologies/downloads) site and install it from there.
+
+The Java example is a very simple application that connects to a CockroachDB database. It makes use of [maven](https://maven.apache.org).
 
 Build the project
 
@@ -60,11 +62,13 @@ mvn package
 Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.
 
 ``` sh
-CONNECTION_STRING="jdbc:postgresql://localhost:26257/test?user=root" \
+CONNECTION_STRING="<serverless-connection-string>" \
   java -jar target/hello-cockroach-0.1.0.jar
 ```
 
 **/go_example**
+
+If you don't have Go installed, visit the [downloads](https://go.dev/dl) site and install it from there.
 
 The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
 
@@ -73,20 +77,22 @@ Run the project, substituting the value for the `CONNECTION_STRING` environment 
 ``` sh
 cd resources/code_examples/go_example
 
-CONNECTION_STRING="postgres://root@localhost:26257/test?sslmode=disable" \
+CONNECTION_STRING="<serverless-connection-string>" \
   go run main.go
 ```
 
-**/dotnet_example**
+**/dotnet_core_example**
+
+If you don't have dotnet core installed, visit the [downloads](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) site and install it from there.
 
 The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
 
 Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
 
 ``` sh
-cd resources/code_examples/dotnet_example
+cd resources/code_examples/dotnet_core_example
 
-CONNECTION_STRING="Server=localhost;Port=26257;Database=test;Userid=root;SslMode=Disable;" \
+CONNECTION_STRING="<serverless-connection-string>" \
   dotnet run
 ```
 

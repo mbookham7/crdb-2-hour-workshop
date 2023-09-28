@@ -8,7 +8,49 @@ To follow this example, you'll need:
 
 * [dg](https://github.com/codingconcepts/dg/releases/latest)
 
+macos (Intel)
+
+``` sh
+wget https://github.com/codingconcepts/dg/releases/download/2.4.0/dg_2.4.0_macos_amd64.tar.gz
+tar -xvf dg_2.4.0_macos_amd64.tar.gz
+```
+
+macos (Apple Silicon)
+
+``` sh
+wget https://github.com/codingconcepts/dg/releases/download/2.4.0/dg_2.4.0_macos_arm64.tar.gz
+tar -xvf dg_2.4.0_macos_arm64.tar.gz
+```
+
+Windows
+
+``` sh
+wget https://github.com/codingconcepts/dg/releases/download/2.4.0/dg_2.4.0_windows.tar.gz
+tar -xvf dg_2.4.0_windows.tar.gz
+```
+
 * [serve](https://github.com/codingconcepts/serve/releases/latest)
+
+macos (Intel)
+
+``` sh
+wget https://github.com/codingconcepts/serve/releases/download/0.3.0/serve_0.3.0_macos_amd64.tar.gz
+tar -xvf serve_0.3.0_macos_amd64.tar.gz
+```
+
+macos (Apple Silicon)
+
+``` sh
+wget https://github.com/codingconcepts/serve/releases/download/0.3.0/serve_0.3.0_macos_arm64.tar.gz
+tar -xvf serve_0.3.0_macos_arm64.tar.gz
+```
+
+Windows
+
+``` sh
+wget https://github.com/codingconcepts/serve/releases/download/0.3.0/serve_0.3.0_windows.tar.gz
+tar -xvf serve_0.3.0_windows.tar.gz
+```
 
 ## Steps
 
