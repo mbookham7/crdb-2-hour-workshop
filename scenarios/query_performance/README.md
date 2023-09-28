@@ -100,3 +100,5 @@ To confirm that the index has been created, run the following query:
 ``` sql
 SELECT create_statement FROM [SHOW CREATE TABLE member];
 ```
+
+[next](/scenarios/geo-partitioning/README.md)

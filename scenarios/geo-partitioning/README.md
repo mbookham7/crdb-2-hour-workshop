@@ -157,3 +157,5 @@ JOIN ranges ra ON re.replicas = ra.replicas
 GROUP BY re.region, re.replicas
 ORDER BY region, replicas;
 ```
+
+[home](/README.md)

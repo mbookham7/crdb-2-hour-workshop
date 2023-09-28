@@ -44,7 +44,51 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ## Connecting to your Cluster via Code
 
-@Rob Reid
+The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice.
+
+**/java_example**
+
+The Java example is a very simple application that connects to a CockroachDB database. It makes use of [maven](https://maven.apache.org), so install that unless you'd prefer another tool.
+
+Build the project
+
+``` sh
+cd resources/code_examples/java_example
+mvn package
+```
+
+Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.
+
+``` sh
+CONNECTION_STRING="jdbc:postgresql://localhost:26257/test?user=root" \
+  java -jar target/hello-cockroach-0.1.0.jar
+```
+
+**/go_example**
+
+The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
+
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
+
+``` sh
+cd resources/code_examples/go_example
+
+CONNECTION_STRING="postgres://root@localhost:26257/test?sslmode=disable" \
+  go run main.go
+```
+
+**/dotnet_example**
+
+The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
+
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
+
+``` sh
+cd resources/code_examples/dotnet_example
+
+CONNECTION_STRING="Server=localhost;Port=26257;Database=test;Userid=root;SslMode=Disable;" \
+  dotnet run
+```
 
 ## Connecting to your Cluster via CLI
 
@@ -174,3 +218,4 @@ SELECT * FROM example;
 
 As you can see CockroachDB behaves like typical relational database, now lets look at query performance.
 
+[next](/scenarios/query_performance/README.md)
