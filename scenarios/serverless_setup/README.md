@@ -46,6 +46,9 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice. Pick any of the following languages to build your example, you don't have to do them all!
 
+git clone this repo.
+```git clone https://github.com/mbookham7/crdb-2-hour-workshop.git```
+
 **/java_example**
 
 If you don't have Java installed, visit the [downloads](https://www.oracle.com/uk/java/technologies/downloads) site and install it from there.
@@ -59,7 +62,7 @@ cd resources/code_examples/java_example
 mvn package
 ```
 
-Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.
+Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
 
 ``` sh
 CONNECTION_STRING="<serverless-connection-string>" \
@@ -72,7 +75,7 @@ If you don't have Go installed, visit the [downloads](https://go.dev/dl) site an
 
 The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
 
-Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
 
 ``` sh
 cd resources/code_examples/go_example
@@ -87,7 +90,9 @@ If you don't have dotnet core installed, visit the [downloads](https://dotnet.mi
 
 The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
 
-Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required.
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
+
+
 
 ``` sh
 cd resources/code_examples/dotnet_core_example
