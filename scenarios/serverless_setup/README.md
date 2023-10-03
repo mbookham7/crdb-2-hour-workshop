@@ -47,6 +47,7 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice. Pick any of the following languages to build your example, you don't have to do them all!
 
 git clone this repo.
+
 ```git clone https://github.com/mbookham7/crdb-2-hour-workshop.git```
 
 **/java_example**
