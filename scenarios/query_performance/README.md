@@ -56,10 +56,15 @@ tar -xvf serve_0.3.0_windows.tar.gz
 
 #### Part 1
 
+Change directory into ./scenarios/query_performance directory.
+
 Create a local instance of CockroachDB:
 
 ``` sh
-cockroach demo --insecure --no-example-database --max-sql-memory 1Gi
+cockroach demo \
+  --insecure \
+  --no-example-database \
+  --max-sql-memory 1Gi
 ```
 
 Create a table:

@@ -42,66 +42,6 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ![create-sql-user](/images/serverless-setup/create-sql-user.png)
 
-## Connecting to your Cluster via Code
-
-The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice. Pick any of the following languages to build your example, you don't have to do them all!
-
-git clone this repo.
-
-```git clone https://github.com/mbookham7/crdb-2-hour-workshop.git```
-
-**/java_example**
-
-If you don't have Java installed, visit the [downloads](https://www.oracle.com/uk/java/technologies/downloads) site and install it from there.
-
-The Java example is a very simple application that connects to a CockroachDB database. It makes use of [maven](https://maven.apache.org).
-
-Build the project
-
-``` sh
-cd resources/code_examples/java_example
-mvn package
-```
-
-Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
-
-``` sh
-CONNECTION_STRING="<serverless-connection-string>" \
-  java -jar target/hello-cockroach-0.1.0.jar
-```
-
-**/go_example**
-
-If you don't have Go installed, visit the [downloads](https://go.dev/dl) site and install it from there.
-
-The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
-
-Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
-
-``` sh
-cd resources/code_examples/go_example
-
-CONNECTION_STRING="<serverless-connection-string>" \
-  go run main.go
-```
-
-**/dotnet_core_example**
-
-If you don't have dotnet core installed, visit the [downloads](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) site and install it from there.
-
-The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
-
-Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
-
-
-
-``` sh
-cd resources/code_examples/dotnet_core_example
-
-CONNECTION_STRING="<serverless-connection-string>" \
-  dotnet run
-```
-
 ## Connecting to your Cluster via CLI
 
 To connect to your cluster you will first need the `CockraochDB Client`. You can do this from the console by clicking connect in the top right hand corner.
@@ -144,57 +84,28 @@ Note that if you'd like to have more space in your terminal, you can enter the f
 \set prompt1 %/>
 ```
 
-Show the region your client is currently connected to.
-```sql
-SELECT gateway_region();
-```
-
-Now show the regions in your cluster, what can you see?
-Which is the primary region?
-
-```sql
-SHOW regions;
-```
-
-Create a database (this can then be used instead of "defaultdb" in your connection string for subsequent connections):
-
-```sql
-CREATE DATABASE workshop
-  PRIMARY REGION "aws-eu-central-1"
-  REGIONS "aws-us-east-1", "aws-us-west-2";
-```
-
-Now select the new database.
-```sql 
-USE workshop;
-```
-
 Perform some basic CRUD operations. Create a table with a colum for ID and a value:
 
 ```sql
-CREATE TABLE example (
+CREATE TABLE member (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "value" STRING NOT NULL
+  "full_name" STRING NOT NULL
 );
 ```
 
 We are now going to insert three rows in to our new table.
 ```sql
-INSERT INTO example ("value") VALUES
+INSERT INTO member ("full_name") VALUES
   ('a'), ('b'), ('c');
 ```
 
 Now if we do a `SELECT` on our table we can see that CockroachDB has automatically generated UUIDs for each row.
 
-```sql
-SELECT * FROM example;
 ```
-
-Example Output:
-```workshop> SELECT * FROM example;                                                                                                                                                                                        
+SELECT * FROM member;
+                         
                    id                  | value
 ---------------------------------------+--------
-  323a533b-41ae-464a-a66f-f3a4a05f5eda | d
   c53949c5-5acf-4a56-a2d5-ee0d5b13870e | b
   cf6185de-b08c-48c6-a979-8f57e1026a2b | c
   e42a82bf-10ec-4870-87b5-7e8bf677f4b3 | a
@@ -204,28 +115,94 @@ Example Output:
 Now we are going to `INSERT` another row into out table. We are doing this so that find it earlier later to delete it!
 
 ```sql
-INSERT INTO example ("id", "value") VALUES
+INSERT INTO member ("id", "full_name") VALUES
   ('323a533b-41ae-464a-a66f-f3a4a05f5eda', 'd');
 ```
 
-Do another `SELECT` for the example table.
+Do another `SELECT` for the member table.
 ```sql
-SELECT * FROM example;
+SELECT * FROM member;
 ```
 
-Now do another `SELECT` from the example table where the id matches the id we added in the earlier step.
+Now do another `SELECT` from the member table where the id matches the id we added in the earlier step.
 ```sql
-SELECT * FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
+SELECT * FROM member WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
 ```
 
 Now we are going to delete the row.
 ```sql
-DELETE FROM example WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
+DELETE FROM member WHERE id = '323a533b-41ae-464a-a66f-f3a4a05f5eda';
 ```
 
-Do a final `SELECT` for the example table. You will see our row is deleted!!
+Do a final `SELECT` for the member table. You will see our row is deleted!!
 ```sql
-SELECT * FROM example;
+SELECT * FROM member;
+```
+
+Exit the terminal with the following command:
+
+```
+exit
+```
+
+## Connecting to your Cluster via Code
+
+The resources/code_examples directory contains a number of examples for connecting to CockroachDB via your programming language of choice. Pick any of the following languages to build your example, you don't have to do them all!
+
+git clone this repo.
+
+```git clone https://github.com/mbookham7/crdb-2-hour-workshop.git```
+
+**/java_example**
+
+If you don't have Java installed, visit the [downloads](https://www.oracle.com/uk/java/technologies/downloads) site and install it from there.
+
+The Java example is a very simple application that connects to a CockroachDB database. It makes use of [maven](https://maven.apache.org).
+
+Build the project
+
+``` sh
+cd resources/code_examples/java_example
+mvn package
+```
+
+Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
+
+``` sh
+CONNECTION_STRING="User ID=<USER>;Password=<PASSWORD>;Host=<HOST>;Port=26257;Database=defaultdb;Pooling=true;Min Pool Size=0;Max Pool Size=20;Connection Lifetime=0;" \
+  java -jar target/hello-cockroach-0.1.0.jar
+```
+
+**/go_example**
+
+If you don't have Go installed, visit the [downloads](https://go.dev/dl) site and install it from there.
+
+The Go example is a very simple application that connects to a CockroachDB database. It uses Go's built-in `go mod` package manager, so no additional dependencies are required.
+
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
+
+``` sh
+cd resources/code_examples/go_example
+
+CONNECTION_STRING="<serverless-connection-string>" \
+  go run main.go
+```
+
+**/dotnet_core_example**
+
+If you don't have dotnet core installed, visit the [downloads](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) site and install it from there.
+
+The dotnet example is a very simple application that connects to a CockroachDB database. It uses `nuget` for package management, so no additional dependencies are required.
+
+Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
+
+
+
+``` sh
+cd resources/code_examples/dotnet_core_example
+
+CONNECTION_STRING="<serverless-connection-string>" \
+  dotnet run
 ```
 
 As you can see CockroachDB behaves like typical relational database, now lets look at query performance.

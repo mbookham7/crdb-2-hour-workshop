@@ -35,4 +35,3 @@ tar -xvf serve_[VERSION]_[OS].tar.gz
 2. [Tuning query performance](/scenarios/query_performance/README.md)
 
 3. [Geo-Partitioning](/scenarios/geo-partitioning/README.md)
-

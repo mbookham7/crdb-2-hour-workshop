@@ -1,3 +1,5 @@
+Change directory into ./scenarios/geo-partitioning.
+
 Create a local CockroachDB cluster containing 9 nodes across 3 regions (note this is a simulated cluster, with simulated inter-region latencies):
 
 ``` sh
@@ -7,7 +9,9 @@ cockroach demo \
   --no-example-database
 ```
 
-Visit http://127.0.0.1:8080/#/overview/map to see a map view of your cluster.
+Use the (webui) link from the command output to visit the CockroachDB Admin Console.
+
+Click the Node List dropdown at the bottom of the screen and change it to Node Map to view a graphical map of your database.
 
 Create a regional-aware database:
 
