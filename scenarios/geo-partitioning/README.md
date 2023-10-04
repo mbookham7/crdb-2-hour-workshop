@@ -158,4 +158,18 @@ GROUP BY re.region, re.replicas
 ORDER BY region, replicas;
 ```
 
+Allow CockroachDB a minute or two to shift data into the right locations, and you'll see something similar to the following:
+
+```
+     region    | replicas  |          range_ids
+---------------+-----------+-------------------------------
+  europe-west1 | {7,8,9}   | {64,76,74,72,71,70,68,66,65}
+  us-east1     | {1,2,3,4} | {67}
+  us-east1     | {1,2,3,6} | {73}
+  us-east1     | {1,4,5,6} | {69,75}
+  us-west1     | {1,2,3,4} | {67}
+  us-west1     | {1,2,3,6} | {73}
+  us-west1     | {1,4,5,6} | {69,75}
+```
+
 [home](/README.md)
