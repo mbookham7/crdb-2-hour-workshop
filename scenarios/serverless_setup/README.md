@@ -174,7 +174,7 @@ mvn package
 Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
 
 ``` sh
-CONNECTION_STRING="jdbc:postgresql://<HOST>:26257/defaultdb?sslmode=require&password=<PASSWORD>&user=<USER>" \
+CONNECTION_STRING="jdbc:postgresql://<HOST>:26257/defaultdb?sslmode=require&user=<USER>&password=<PASSWORD>" \
   java -jar target/hello-cockroach-0.1.0.jar
 ```
 
@@ -189,8 +189,8 @@ Run the project, substituting the value for the `CONNECTION_STRING` environment 
 ``` sh
 cd resources/code_examples/go_example
 
-CONNECTION_STRING="<serverless-connection-string>" \
-  go run main.go
+CONNECTION_STRING="postgresql://<USER>:<PASSWORD>@<HOST>:26257/defaultdb?sslmode=verify-full" \
+	go run main.go
 ```
 
 **/dotnet_core_example**
@@ -202,12 +202,11 @@ The dotnet example is a very simple application that connects to a CockroachDB d
 Run the project, substituting the value for the `CONNECTION_STRING` environment variable as required. The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
 
 
-
 ``` sh
 cd resources/code_examples/dotnet_core_example
 
-CONNECTION_STRING="<serverless-connection-string>" \
-  dotnet run
+CONNECTION_STRING="Server=<HOST>;Port=26257;Database=defaultdb;User Id=<USER>;Password=<PASSWORD>;" \
+	dotnet run
 ```
 
 As you can see CockroachDB behaves like typical relational database, now lets look at query performance.
