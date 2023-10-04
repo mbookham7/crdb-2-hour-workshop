@@ -44,7 +44,7 @@ Once you have made your selection review them and hit create!! WE ARE GOING GLOB
 
 ## Connecting to your Cluster via CLI
 
-To connect to your cluster you will first need the `CockraochDB Client`. You can do this from the console by clicking connect in the top right hand corner.
+To connect to your cluster you will first need the `CockroachDB Client`. You can do this from the console by clicking connect in the top right hand corner.
 
 Below are the commands for Mac and Windows. Copy the correct one for your Operating System and run.
 
@@ -60,10 +60,15 @@ curl https://binaries.cockroachdb.com/cockroach-v23.1.10.darwin-10.9-amd64.tgz |
 $ErrorActionPreference = "Stop"; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $ProgressPreference = 'SilentlyContinue'; $null = New-Item -Type Directory -Force $env:appdata/cockroach; Invoke-WebRequest -Uri https://binaries.cockroachdb.com/cockroach-v23.1.10.windows-6.2-amd64.zip -OutFile cockroach.zip; Expand-Archive -Force -Path cockroach.zip; Copy-Item -Force cockroach/cockroach-v23.1.10.windows-6.2-amd64/cockroach.exe -Destination $env:appdata/cockroach; $Env:PATH += ";$env:appdata/cockroach"; # We recommend adding ";$env:appdata/cockroach" to the Path variable for your system environment. See https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables#saving-changes-to-environment-variables for more information.
 ```
 
-Once you have downloaded the CockroachDB Client you are now ready to connect to your cluster. From the same window, from the connect button in the top right hand corner you can copy your connection command. Click copy and paste the command into your terminal.
+Once you have downloaded the CockroachDB Client you are now ready to connect to your cluster. From the same window, from the connect button in the top right hand corner you can copy your connection command.
 
+Make sure you download the certificate for your cluster before attemping to connect:
+
+![download-certificate](/images/serverless-setup/download-certificate.png)
+
+Click copy and paste the command into your terminal.
+ 
 ![connection-string](/images/serverless-setup/connection-string.png)
-
 
 > Note that this connection string will use the CockroachDB global load balancer, ensuring you are connected to your closest region. If you wish to override this and provide a region manually, the connection string can be updated as follows:
 
@@ -169,7 +174,7 @@ mvn package
 Run the project, substituting the value for the `CONNECTION_STRING` environmant variable as required.The `CONNECTION_STRING` can be found in the Cockroach Cloud UI. If you click on `Connect` in the top right hand corner. Then change the `Select option/language` to `Connection String` This will be displayed in the window below. Copy this and paste it in to the connection string below.
 
 ``` sh
-CONNECTION_STRING="User ID=<USER>;Password=<PASSWORD>;Host=<HOST>;Port=26257;Database=defaultdb;Pooling=true;Min Pool Size=0;Max Pool Size=20;Connection Lifetime=0;" \
+CONNECTION_STRING="jdbc:postgresql://<HOST>:26257/defaultdb?sslmode=require&password=<PASSWORD>&user=<USER>" \
   java -jar target/hello-cockroach-0.1.0.jar
 ```
 
